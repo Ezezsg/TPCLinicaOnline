@@ -1,0 +1,25 @@
+<nav class="site-header sticky-top py-2">
+    <div class="container d-flex flex-column flex-md-row justify-content-between">
+          <!-- <a routerLink="/Principal" class="mt-1">
+              <i class="fa fa-gamepad" aria-hidden="true"></i>
+          </a>
+          
+          <a class="py-2" href="https://github.com/Ezezsg">en GitHub <i class="fa fa-github"></i></a>
+          <a class="py-2" routerLink="">Quien Soy? <i class="fa fa-user"></i></a> -->
+        
+        <button *ngIf='userEmail === null' class="btn btn-dark" type="button" routerLink='/Login'>
+              <a >Login</a>
+        </button>
+
+        <button *ngIf='userEmail === null' class="btn btn-dark" type="button" routerLink='/Registro'>
+            <a >Registro</a>
+        </button>
+        
+
+        <div *ngIf='userEmail !== null'>
+        <button class="btn btn-dark" type="button">
+            <a (click)="logout()">Cerrar sesión</a>
+        </button>
+        </div>  
+    </div>
+  </nav>
