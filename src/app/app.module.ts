@@ -21,6 +21,7 @@ import { CabeceraComponent } from './componentes/cabecera/cabecera.component';
 import { LoginComponent } from './page/login/login.component';
 import { RegistroComponent } from './page/registro/registro.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,

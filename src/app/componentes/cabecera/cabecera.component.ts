@@ -20,16 +20,16 @@ export class CabeceraComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.userDetails().subscribe(res => {
-      console.log('res', res);
-      if (res !== null) {
-        this.userEmail = res.email;
-      } else {
-        this.router.navigate(['']);
-      }
-    }, err => {
-      console.log('err', err);
-    })
+    // this.authService.userDetails().subscribe(res => {
+    //   console.log('res', res);
+    //   if (res !== null) {
+    //     this.userEmail = res.email;
+    //   } else {
+    //     this.router.navigate(['']);
+    //   }
+    // }, err => {
+    //   console.log('err', err);
+    // })
   }
 
   logout() {
