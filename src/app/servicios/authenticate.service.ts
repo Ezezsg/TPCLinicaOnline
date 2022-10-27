@@ -1,54 +1,185 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { InformeService } from './informe.service';
+import { environment } from '../../environments/environment';
+import firebase from 'firebase/app'
+import { BehaviorSubject } from 'rxjs';
+import { promise } from 'protractor';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticateService {
 
-  constructor(
-    private afAuth: AngularFireAuth
-  ) { }
+  public userProfile: BehaviorSubject<any> = new BehaviorSubject(null);
+	public db = firebase.firestore();
+	public config = environment.firebaseConfig;
+	public secondaryApp: any = null;
+	public registrando: boolean = false;
 
-  //registrar un nuevo usuario en el servicio de autenticación de Firebase
-  registerUser(value) {
-    return new Promise<any>((resolve, reject) => {
+	constructor(private afAuth: AngularFireAuth, private storage: AngularFireStorage
+		, private firestore: AngularFirestore, private informe: InformeService) {
+		this.afAuth.onAuthStateChanged(user => {
+			if (user != null) {
+				if (this.registrando === false) {
+					this.getUsuario(user.uid).then(value => {
+						if (value.data() != undefined) {
+							this.userProfile.next(value.data());
+							localStorage.setItem("user", JSON.stringify(user));
+						} else {
+							this.userProfile.next(null);
+						}
+					});
+				}
+			} else {
+				localStorage.setItem("user", null);
+				this.userProfile.next(null);
+			}
+		});
+	}
 
-      this.afAuth.createUserWithEmailAndPassword(value.email, value.password)
-        .then(
-          res => resolve(res),
-          err => reject(err))
-    })
+	public getUsuario(uid) {
+		return this.db.collection('usuarios').doc(uid).get();
+	}
 
-  }
+	async login(dataLogin) {
+		type StorageInterface = { value: string };
+		let promesa = new Promise<any>((resolve, reject) => {
+			this.afAuth.signInWithEmailAndPassword(dataLogin.email, dataLogin.pass).then(user => {
+				localStorage.setItem("user", JSON.stringify(user.user));
+				this.getUsuario(user.user.uid).then((usuario) => {
+					if (usuario.data().rol === 'Admin') {
+						this.informe.guardarLogUsuario(usuario.data());
+					resolve(user);	
+					} else if (user.user.emailVerified && usuario.data().rol === 'Paciente') {
+						this.db.collection('usuarios').doc(user.user.uid).update({
+							habilitado: 'Si'
+						});
+						this.informe.guardarLogUsuario(usuario.data());
+					resolve(user);	
+					} else if (usuario.data().rol === 'Profesional' && usuario.data().habilitado === 'Si') {
+						this.informe.guardarLogUsuario(usuario.data());
+					resolve(user);	
+					}
+					else {
+						this.logout();
+						reject('el usuario no esta verificado. Compruebe su correo o de lo contrario espere que lo habilite un administrador');
+					}
+				});
+			}).catch(error => {
+				reject(error.code);
+			});
+		});
+		return promesa;
+	}
 
-  //Para iniciar sesión en un usuario
-  loginUser(value) {
-    return new Promise<any>((resolve, reject) => {
-      this.afAuth.signInWithEmailAndPassword(value.email, value.password)
-        .then(
-          res => resolve(res),
-          err => reject(err))
-    })
-  }
+	async register(dataRegistro) {
+		this.registrando = true;
+		return await this.afAuth.createUserWithEmailAndPassword(dataRegistro.email, dataRegistro.pass).then(data => {
+			console.log('registra y guarda');
+			this.db.collection('usuarios').doc(data.user.uid).set({
+				uid: data.user.uid,
+				email: data.user.email,
+				nombre: dataRegistro.nombre,
+				apellido: dataRegistro.apellido,
+				nacimiento: dataRegistro.nacimiento,
+				sexo: dataRegistro.sexo,
+				rol: dataRegistro.rol,
+				habilitado: 'No'
+			}).then(() => {
+				console.log('copia metadata');
+				let metadata: any = {
+					uid: data.user.uid,
+					email: data.user.email,
+					nombre: dataRegistro.nombre,
+					apellido: dataRegistro.apellido,
+					nacimiento: dataRegistro.nacimiento,
+					sexo: dataRegistro.sexo,
+					rol: dataRegistro.rol
+				};
+				if (dataRegistro.rol === 'Paciente') {
+					console.log('envia email');
+					data.user.sendEmailVerification();
+				} else if (dataRegistro.rol === 'Profesional') {
+					this.db.collection('usuarios').doc(data.user.uid).set({
+						especialidades: dataRegistro.especialidades,
+						horarios: dataRegistro.horarios,
+					}, { merge: true });
+				}
+				return metadata;
+			}).then(metadata => {
+				let im1 = dataRegistro.img1.name;
+				let im2 = dataRegistro.img2.name;
+				let extension1 = im1.split('.').reverse();
+				let extension2 = im2.split('.').reverse();
+				im1 = 'foto_perfil/' + dataRegistro.email + '_1.' + extension1[0];
+				im2 = 'foto_perfil/' + dataRegistro.email + '_2.' + extension2[0];
+				this.subirArchivo(im1, dataRegistro.img1, 'imagen1', data.user.uid, metadata).then(() => {
+					this.subirArchivo(im2, dataRegistro.img2, 'imagen2', data.user.uid, metadata);
+				});
+			}).then(() => {
+				this.logout();
+				this.registrando = false;
+			});
+		});
+	}
 
-  //elimina la sesión del usuario en el servicio Firebase Authentication
-  logoutUser() {
-    return new Promise<void>((resolve, reject) => {
-      if (this.afAuth.currentUser) {
-        this.afAuth.signOut()
-          .then(() => {
-            console.log("LOG Out");
-            resolve();
-          }).catch((error) => {
-            reject();
-          });
-      }
-    })
-  }
+	async logout() {
+		await this.afAuth.signOut();
+		localStorage.removeItem("user");
+	}
 
-  //método que devuelve los detalles del usuario que inició sesión
-  userDetails() {
-    return this.afAuth.user
-  }
+	public get isLoggedIn(): boolean {
+		const user = JSON.parse(localStorage.getItem('user'));
+		if (user === null || user === undefined) {
+			return false;
+		}
+		return true;
+	}
+
+	async subirArchivo(nombreArchivo: string, datos: any, nombreCampo: string, uid, metadata) {
+		return await this.storage.upload(nombreArchivo, datos, { customMetadata: metadata }).then(imagen => {
+			imagen.ref.getDownloadURL().then(data => {
+				this.db.collection('usuarios').doc(uid).set({
+					[nombreCampo]: data,
+				}, { merge: true });
+			});
+			return imagen;
+		}).then(imagen => {
+		});
+	}
+
+	async registerAdmin(dataRegistro, pass) {
+		this.secondaryApp = firebase.initializeApp(this.config, "Secondary");
+		
+		return await this.secondaryApp.auth().createUserWithEmailAndPassword(dataRegistro.email, pass).then((data) => {
+			
+			this.firestore.collection('usuarios').doc(data.user.uid).set({
+				
+				uid: data.user.uid,
+				email: dataRegistro.email,
+				rol: dataRegistro.rol,
+				habilitado: 'Si'
+			}).then(() => {
+				console.log('copia metadata');
+				let metadata: any = {
+					uid: data.user.uid,
+					email: dataRegistro.email,
+					rol: dataRegistro.rol,
+				};
+				return metadata;
+			}).then(metadata => {
+				let im1 = dataRegistro.img1.name;
+				let extension1 = im1.split('.').reverse();
+				im1 = 'foto_perfil/' + dataRegistro.email + '_1.' + extension1[0];
+				this.subirArchivo(im1, dataRegistro.img1, 'imagen1', data.user.uid, metadata)
+			})
+		}).then(firebaseUser => {
+			this.secondaryApp.auth().signOut();
+		}).then(() => {
+			this.secondaryApp.delete();
+		});
+	}
 }

@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router} from '@angular/router';
 import { AuthenticateService } from '../../servicios/authenticate.service';
+import { NotificacionService } from '../../servicios/notificacion.service';
+
 
 @Component({
   selector: 'app-cabecera',
@@ -9,38 +11,35 @@ import { AuthenticateService } from '../../servicios/authenticate.service';
 })
 export class CabeceraComponent implements OnInit {
 
-  public userEmail : string = null;
+  public usuario: any = {};
+  public notifs: number = 0;
+  public subU: any = null;
+  public subN: any = null;
+  constructor(public Authserv: AuthenticateService, private router: Router, private notificaciones: NotificacionService) {
+    this.subU = this.Authserv.userProfile.subscribe(val => {
+      this.usuario = {};
+      this.usuario = val;
+      if (this.usuario !== null) {
+        this.subN = this.notificaciones.contarNotificacionesNoLeidas(this.usuario.email).subscribe(snap => {
+            this.notifs = snap.length;
+        })
+      }
+    });
+  }
 
-  constructor(
-    private authService: AuthenticateService,
-  	private router: Router
-  ) 
-  {
-
+  tryCerrarSesion() {
+    this.Authserv.logout().then(()=>{
+      this.router.navigate(['']);
+    });
   }
 
   ngOnInit(): void {
-    // this.authService.userDetails().subscribe(res => {
-    //   console.log('res', res);
-    //   if (res !== null) {
-    //     this.userEmail = res.email;
-    //   } else {
-    //     this.router.navigate(['']);
-    //   }
-    // }, err => {
-    //   console.log('err', err);
-    // })
   }
 
-  logout() {
-    this.authService.logoutUser()
-      .then(res => {
-        console.log(res);
-        this.router.navigate(['']);
-      })
-      .catch(error => {
-        console.log(error);
-      })
-  }	 
+  ngOnDestroy(): void {
+    if(this.subU !== null){
+      this.subU.unsubscribe();
+    }
+  }
 
 }

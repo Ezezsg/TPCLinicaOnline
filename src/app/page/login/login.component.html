@@ -1,1 +1,45 @@
-
+<div class="text-center contenedor">
+    <form role="form" [formGroup]="loginForm" class="form-signin">
+      <div *ngIf='!submit; else spinner'>
+      <i class="fa fa-user-circle-o" style="font-size: 150px;"></i>
+      <h1 class="h3 mb-3 font-weight-normal">
+        Iniciar Sesión
+      </h1>
+      <select class="form-control" [(ngModel)]='usuarioSelect' [ngModelOptions]="{standalone: true}" (ngModelChange)='seleccionarUsuario($event)'>
+        <option [value]="null">Elige una opción</option>
+        <option *ngFor='let usuario of selectUsuarios' [ngValue]='usuario'>{{usuario.email}} ({{usuario.tipo}})</option>
+      </select>
+      <label class="sr-only" for="inputEmail">
+        Correo Electrónico
+      </label>
+      <input class="form-control" id="inputEmail" formControlName="email" placeholder="Correo Electronico" autocomplete="username" required type="email">
+      <label class="sr-only" for="inputPassword">
+        Contraseña
+      </label>
+      <input class="form-control" id="inputPassword" formControlName="pass" placeholder="Contraseña" autocomplete="current-password" required type="password">
+      <div *ngIf='this.error' class="form-group text-center">
+        <label class="text-danger">{{this.mensajeError}}</label>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button class="btn btn-primary btn-block" type="submit" (click)="tryLogin(loginForm.value)">
+            Iniciar Sesión
+          </button>
+        </div>
+        <div class="col">
+          <button class="btn btn-success btn-block" type="button" routerLink='/Registro'>
+            Registrarse
+          </button>
+        </div>
+      </div>
+      </div>
+      <ng-template #spinner>
+        <div class="text-center">
+          <div class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </ng-template>
+    </form>
+</div>
+  
