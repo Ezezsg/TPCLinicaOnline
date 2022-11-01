@@ -1,8 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticateService } from 'src/app/servicios/authenticate.service'; 
-import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms'; 
-import { Router } from "@angular/router";
-import { ESPECIALIDADES } from 'src/app/clases/especialidades';
+import { info } from 'console';
+import { Usuario } from 'src/app/models/models.module';
+import { DataService } from 'src/app/servicios/data.service';
+import { AuthenticateService } from '../../servicios/authenticate.service';
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 @Component({
   selector: 'app-registro',
@@ -11,146 +22,128 @@ import { ESPECIALIDADES } from 'src/app/clases/especialidades';
 })
 export class RegistroComponent implements OnInit {
 
-  public registroForm = new FormGroup({
-		email: new FormControl('', Validators.required),
-		pass: new FormControl('', Validators.required),
-		nombre: new FormControl('', Validators.required),
-		apellido: new FormControl('', Validators.required),
-		sexo: new FormControl('Femenino'),
-		dni: new FormControl('', [Validators.required, this.validarDNI, Validators.minLength(8)]),
-		rol: new FormControl('', Validators.required),
-		nacimiento: new FormControl('', Validators.required),
-		especialidades: new FormControl([],Validators.required),
-		horarios: new FormControl([],Validators.required),
-		img1: new FormControl(''),
-		img2: new FormControl(''),
-		captcha: new FormControl(null, Validators.required),
-	});
-	public cantImagenes = -1;
-	public nuevaEspecialidad = false;
-	public cambiarEspecialidad = false;
-	public espMock = ESPECIALIDADES;
-	public especialidadItem = {};
-	public auxEspecialidades = [];
-	public nEspecialidad = 'CARDIOLOGÍA';
-	public iEspecialidad = 30;
-	public nuevoHorario = false;
-	public auxHorarios = [];
-	public error = false;
-	public mensajeError: string = '';
-	public submit = false;
+  emailClass:'';
+  claveClass:'';
+  email:string;
+  clave:string;
+  usuario:Usuario = new Usuario();
+  img1:any;
+  img2:any;
+  lista:Array<any>;
+  especialidades:Array<any> = new Array<any>();
 
-	constructor(private auth: AuthenticateService, public router: Router) {
-	}
-	ngOnInit(): void {
-	}
+  constructor(private auth:AuthenticateService, private data:DataService, private toastr:ToastrService, private router : Router ) { }
+  
+  emailFormControl = new FormControl('', [
+    Validators.required,
+    Validators.email,
+  ]);
 
-	fechaHoy() {
-		var today: any = new Date();
-		var dd: any = today.getDate();
-		var mm: any = today.getMonth() + 1;
-		var yyyy: any = today.getFullYear() - 18;
-		if (dd < 10) {
-			dd = '0' + dd.toString();
-		}
-		if (mm < 10) {
-			mm = '0' + mm.toString();
-		}
-		today = yyyy + '-' + mm + '-' + dd;
-		return today;
-	}
+  matcher = new MyErrorStateMatcher();
 
-	agregarImagenes(imagenes) {
-		console.log(imagenes);
-		if (imagenes.length == 2) {
-			this.registroForm.patchValue({
-				img1: imagenes[0],
-				img2: imagenes[1]
-			});
-		}
-		this.cantImagenes = imagenes.length;
-	}
+  Entrar(){
+    this.cargarEspecialidades();
+    if(this.validacion())
+    {
+        if(this.usuario.tipo == "profesional")
+        {
+          this.auth.registerPro(this.usuario,this.lista,this.img1);
+        }
+        else
+        {
+          this.auth.signUp(this.usuario,this.img1,this.img2);
+        }
+        this.router.navigateByUrl('login');
+    }
+  }
 
-	agregarEspecialidad() {
-		if (this.nEspecialidad !== null) {
-		this.especialidadItem['nombre'] = this.nEspecialidad
-		this.especialidadItem['duracion'] = this.iEspecialidad;
-		this.auxEspecialidades.push(this.especialidadItem);
-		this.espMock.splice(this.espMock.indexOf(this.nEspecialidad),1);
-		console.log(this.espMock.indexOf(this.nEspecialidad));
-		this.registroForm.controls.especialidades.setValue(this.auxEspecialidades);
-		this.especialidadItem = {};
-		this.nEspecialidad = null;
-		this.iEspecialidad = 30;
-		this.nuevaEspecialidad = false;
-		this.cambiarEspecialidad = false;
-	}
-	}
+  Paciente()
+  {
+    this.usuario.tipo = "paciente";
+    
+    
+  } 
+  Medico()
+  {
+    this.usuario.tipo = "profesional";
+  }
 
-	editarEspecialidad(especialidadAux: any) {
-		this.nuevaEspecialidad = true;
-		this.cambiarEspecialidad = true;
-		this.espMock.push(especialidadAux['nombre']);
-		this.espMock.sort();
-		this.nEspecialidad = especialidadAux['nombre'];
-		this.iEspecialidad = especialidadAux['duracion'];
-		let index = this.auxEspecialidades.findIndex(x1 => x1['nombre'] === especialidadAux['nombre'] && x1['duracion'] === especialidadAux['duracion']);
-		this.auxEspecialidades.splice(index, 1);
-		this.registroForm.controls.especialidades.setValue(this.auxEspecialidades);
-	}
+  validacion()
+  {  
+    if(this.usuario.nombre != null && this.usuario.apellido !=null && this.usuario.email !=null && this.usuario.dni !=null && this.usuario.clave !=null && this.clave !=null && this.usuario.tipo)
+    {
+      if(this.usuario.clave == this.clave)
+      {
+        if(this.usuario.tipo=="paciente")
+        {
+          if(this.usuario.img1 != null && this.usuario.img2 !=null)
+          {
+            return true;
+          }
+          else
+          {
+            this.toastr.error("Las dos imagenes son requeridas", "ERROR");
+            return false;
+          }
+        }
+        else
+        {
+          if(this.lista.length>0){
+            
+            console.info(this.lista);
+            return true;
 
-	public tryRegister(registro) {
-		if(registro.value.rol === 'Paciente'){
-			this.registroForm.controls.especialidades.setErrors(null);
-			this.registroForm.controls.horarios.setErrors(null);
-		}
-		if (registro.status === 'VALID') {
-			this.submit = true;
-			this.auth.register(registro.value).then(() => {
-				this.error = false;
-				console.log(this.auth.isLoggedIn);
-				this.router.navigate([""]);
-			}).catch(err => {
-				this.submit = false;
-				switch (err.code) {
-					case "auth/email-already-in-use":
-						this.mensajeError = 'el email ya esta en uso por otro usuario';
-						break;
-					case "auth/invalid-email":
-						this.mensajeError = 'el email no tiene un formato valido';
-						break;
-					case "auth/weak-password":
-						this.mensajeError = 'la contraseña no es fuerte';
-						break;
-					case "auth/argument-error":
-						this.mensajeError = 'el email o la contraseña no tienen un formato valido';
-						break;
-					default:
-						this.mensajeError = err;
-						break;
-				}
-				this.error = true;
-				setTimeout(() => {
-					this.error = false;
-				}, 5000);
-			});
-		}
-	};
+          }
+          else
+          { 
+            this.toastr.error("Debe seleccionar almenos una especialidad", "ERROR");
+            return false;
+          }
+        }
+      }
+      else
+      {
+        this.toastr.error("Las contraseñas no coinciden", "ERROR");
+        return false;
+      }
+    }
+    else
+    { 
+      this.toastr.error("Datos incompletos o inválidos", "ERROR");
+      return false;
+    }
+  }
 
-	public change(valor: string) {
-		this.registroForm.value.sexo = valor;
-	}
+  cargarEspecialidades(){
+    this.lista = (this.especialidades.filter(res => res.completed == true )).map(res => res.name);
+    console.info(this.lista);
+  }
 
-	validarDNI(control: AbstractControl)
- 	{
-   		const dni = control.value;
-   		const estaMal = parseInt(dni);
-   		console.log(estaMal);
-   		if (!estaMal)
-   		{
-     		return {estaMal:true};
-   		}
-   	return null;
- 	}
+  ngOnInit(): void {
+      this.data.getEspecialidades().subscribe( res =>{
+            res.forEach(item =>{
+              let objet = {name: item.nombre, completed: false, color: 'primary'} 
+              this.especialidades.push(objet);
+            })
+            console.info(this.especialidades);
+      })
+  }
 
+  onFileSelected(event) {
+    this.img1 = event.target.files[0];
+    this.usuario.img1=" ";
+    console.log(this.img1);
+  }
+
+  onFileSelected2(event) {
+    this.img2 = event.target.files[0];
+    this.usuario.img2=" ";
+    console.log(this.img2);
+  }
+
+  updateAllComplete(){
+    console.log(this.especialidades);
+  }
+
+	
 }

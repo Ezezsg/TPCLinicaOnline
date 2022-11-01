@@ -1,184 +1,109 @@
-<div class="container-fluid contenedor">
-    <form role="form" #ngForm='ngForm' [formGroup]="registroForm" class="w-75 m-3">
-      <div class="text-center">
-        <i class="fa fa-user-plus" style="font-size: 150px;"></i>
-        <h1 class="h3 mb-3 font-weight-normal">
-          Registrate
-        </h1>
-      </div>
-      <div class="form-group form-row">
-        <label class="col-md-3 col-form-label" for="inputName">
-          Nombre:
-        </label>
-        <div class="col-md-9">
-          <input type="text" class="form-control" id="inputName" formControlName="nombre" placeholder="Ingrese nombre" required>
-          <p *ngIf='ngForm.submitted && registroForm.controls.nombre.errors' class="text-danger">No se asignó un nombre</p>
-        </div>
-      </div>
-      <div class="form-group form-row">
-        <label class="col-md-3 col-form-label" for="inputLastname">
-          Apellido:
-        </label>
-        <div class="col-md-9">
-          <input type="text" class="form-control" id="inputLastname" formControlName="apellido" placeholder="Ingrese apellido" required>
-          <p *ngIf='ngForm.submitted && registroForm.controls.apellido.errors' class="text-danger">No se asignó un apellido</p>
-        </div>
-      </div>
-      <div class="form-group form-row">
-        <label class="col-md-3 col-form-label" for="inputFecha">
-          Fecha de Nacimiento:
-        </label>
-        <div class="col-md-9">
-          <input type="date" class="form-control" id="inputFecha" formControlName="nacimiento" required min="1900-01-01" [max]="fechaHoy()">
-          <p *ngIf='ngForm.submitted && registroForm.controls.nacimiento.errors' class="text-danger">No se asignó una fecha de nacimiento</p>
-        </div>
-      </div>
-      <div class="form-group form-row">
-        <label class="col-md-3 col-form-label" for="inputDni">
-          DNI:
-        </label>
-        <div class="col-md-9">
-          <input type="text" class="form-control" id="inputDni" formControlName="dni" placeholder="Ingrese DNI" required>
-          <p *ngIf='ngForm.submitted && registroForm.controls.dni.errors' class="text-danger">No se asignó un dni</p>
-          <p *ngIf="ngForm.submitted && registroForm.controls.dni.errors?.minlength" class="text-danger">No se puede agregar menos de 8 números</p>
-          <p *ngIf="ngForm.submitted && registroForm.get('dni')?.hasError('estaMal')" class="text-danger">Ingrese solo números</p>
-        </div>
-      </div>
-      <div class="form-group form-row">
-        <label class="col-md-3 col-form-label" for="inputSexo">
-          Sexo:
-        </label>
-        <div class="col-md-9">
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="sexo" formControlName='sexo' id="RadioM" value="Masculino" [checked]="registroForm.value.sexo === 'Masculino'" (change)="change(registroForm.value.sexo)" />
-            <label class="form-check-label" for="RadioM">Masculino</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="sexo" formControlName='sexo' id="RadioS" value="Femenino" [checked]="registroForm.value.sexo === 'Femenino'" (change)="change(registroForm.value.sexo)" />
-            <label class="form-check-label" for="RadioS">Femenino</label>
-          </div>
-        </div>
-      </div>
-      <div class="form-group form-row">
-        <label class="col-md-3 col-form-label" for="inputImg">
-          Imágenes:
-        </label>
-        <div class="col-md-9">
-          <p *ngIf='registroForm.value.img1 != "" && registroForm.value.img2 != ""' class="text-success">Imágenes Seleccionadas</p>
-          <div class="custom-file form-control">
-            <input #fileInp type="file" multiple name="imagen" accept='image/*' id="inputImg" class="custom-file-input" (change)='agregarImagenes($event.target.files)' required>
-            <label class="custom-file-label" for="inputImg1">Elige 2 imágenes</label>
-          </div>
-          <p *ngIf='(ngForm.submitted && (cantImagenes !== 2)) || (cantImagenes !== 2 && cantImagenes !== -1)' class="text-danger">No se asignó la cantidad correcta de imágenes. Deben ser específicamente 2</p>
-        </div>
-      </div>
-      <div class="form-group form-row">
-        <label class="col-md-3 col-form-label" for="inputRole">
-          Tipo de Usuario:
-        </label>
-        <div class="col-md-9">
-          <select class="custom-select" id="inputRole" name="rol" formControlName='rol' required>
-            <option value="" selected disabled>Rol del usuario</option>
-            <option value="Paciente">Paciente</option>
-            <option value="Profesional">Profesional</option>
-          </select>
-          <p *ngIf='ngForm.submitted && registroForm.controls.rol.errors' class="text-danger">No se seleccionó un rol</p>
-        </div>
-      </div>
-      <ng-container *ngIf="registroForm.value.rol === 'Profesional'">
-        <div class="form-group form-row">
-          <label class="col-md-3 col-form-label" for="inputEspecialidades">
-            Especialidad/es:
-          </label>
-          <div id="inputEspecialidades" class="col-md-9">
-            <ul>
-              <li *ngFor='let especialidad of registroForm.value.especialidades' (click)='editarEspecialidad(especialidad)'>{{especialidad['nombre']}}. longitud de turno: {{especialidad['duracion']}}min.</li>
-            </ul>
-            <div class="form-group form-inline">
-              <label for="iconNuevoE">Agregar Especialidad: </label>
-              <div id="iconNuevoE" *ngIf='!nuevaEspecialidad; else especialidadNueva' class="ml-2">
-                <button class="btn btn-success" (click)='nuevaEspecialidad = true'>+</button>
-              </div>
-              <ng-template #especialidadNueva>
-                <div id="iconNuevoE" class="input-group">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">Nombre</div>
-                  </div>
-                  <select class="custom-select" [(ngModel)]='nEspecialidad' [ngModelOptions]="{standalone: true}">
-                    <option *ngFor='let esp of espMock; let x = index' id="opcionN-{{x}}" [value]='esp' [selected]='x==="0"'>{{esp}}</option>
-                  </select>
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">Tiempo(m)</div>
-                  </div>
-                  <input type="number" class="form-control" [(ngModel)]='iEspecialidad' [ngModelOptions]="{standalone: true}" min="30" placeholder="tiempo/turno">
-                  <div class="input-group-append">
-                    <button type='button' class="btn btn-danger" (click)='nEspecialidad="CARDIOLOGÍA"; iEspecialidad=30; nuevaEspecialidad= false; cambiarEspecialidad= false' [textContent]='!cambiarEspecialidad?"Cancelar":"Borrar"'></button>
-                    <button type='button' class="btn btn-success" (click)='agregarEspecialidad()' [textContent]='!cambiarEspecialidad?"Agregar":"Guardar"'></button>
-                  </div>
-                </div>
-              </ng-template>
-            </div>
-            <p *ngIf='ngForm.submitted && registroForm.controls.especialidades.errors' class="text-danger">No se asignó ninguna especialidad</p>
-          </div>
-        </div>
-        <div class="form-group form-row">
-          <label class="col-md-3 col-form-label" for="inputHorarios">
-            Horarios de Atención:
-          </label>
-          <div id="inputHorarios" class="col-md-9">
-            <ul>
-              <li *ngFor='let horario of registroForm.value.horarios'>{{horario.dia}}, desde las {{horario.desde}}hs hasta las {{horario.hasta}}hs, {{horario.especialidad}}</li>
-            </ul>
-            <div *ngIf='!registroForm.controls.especialidades.errors' class="form-inline">
-              <label for="iconNuevoH">Establecer Horarios: </label>
-              <div id="iconNuevoH" *ngIf='!nuevoHorario; else horarioNuevo' class="ml-2">
-                <button class="btn btn-primary" (click)='nuevoHorario = true'>+</button>
-              </div>
-            </div>
-            <ng-template #horarioNuevo>
-              <app-alta-horarios [(nuevoHorario)]='nuevoHorario' [horarios]='registroForm.value.horarios' (horariosChange)='registroForm.controls.horarios.setValue($event)' [especialidades]='registroForm.value.especialidades'></app-alta-horarios>
-            </ng-template>
-            <p *ngIf='ngForm.submitted && registroForm.controls.horarios.errors' class="text-danger">No se asignó ningún horario de atención</p>
-          </div>
-        </div>
-      </ng-container>
-      <div class="form-group form-row">
-        <label class="col-md-3 col-form-label" for="inputEmail">
-          Correo Electrónico:
-        </label>
-        <div class="col-md-9">
-          <input type="email" class="form-control" id="inputEmail" formControlName="email" placeholder="Ingrese email" autocomplete="username" required>
-          <p *ngIf='ngForm.submitted && registroForm.controls.email.errors' class="text-danger">No se asignó un email</p>
-        </div>
-      </div>
-      <div class="form-group form-row">
-        <label class="col-md-3 col-form-label" for="inputPassword">
-          Contraseña:
-        </label>
-        <div class="col-md-9">
-          <input type="password" class="form-control" id="inputPassword" formControlName="pass" placeholder="Ingrese contraseña" autocomplete="new-password" required>
-          <p *ngIf='ngForm.submitted && registroForm.controls.pass.errors' class="text-danger">No se asignó una contraseña</p>
-        </div>
-      </div>
-      <br>
-      <div class="form-group">
-        <app-capcha (valorCaptcha)='registroForm.controls.captcha.setValue($event)'></app-capcha>
-        <p *ngIf='ngForm.submitted && registroForm.controls.captcha.errors' class="text-danger">No se verifica el captcha</p>
-      </div>
-      <div *ngIf='error' class="form-group text-center">
-        <label class="text-danger">{{mensajeError}}</label>
-      </div>
-      <div *ngIf='submit' class="form-group text-center my-3">
-        <div class="spinner-border text-success" style="width: 5rem; height: 5rem;" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
-      </div>
-      <div class="form-group">
-        <button class="btn btn-success btn-block mt-2" type="submit" (click)="tryRegister(registroForm)">
-          Registrarse
-        </button>
-      </div>
-    </form>
-</div>
-  
+<mat-toolbar style="background-color: #306881; color: white;" class="expanded-toolbar">
+    <img style="width: 2rem; border-radius: 100%; margin-right: 2rem;" src="../../../assets/login.png" alt="">
+    Registrarse
+</mat-toolbar>
+<div class="contenedor" >
+    <mat-card class="container">
+    
+    <form class="example-form">
 
+    <div>
+        <img src="../../../assets/imagenes/paciente.png" ngClass ="imgRedonda" (click)="Paciente()">
+        <img src="../../../assets/imagenes/medico.png" ngClass="imgRedonda" (click)="Medico()">
+    </div>
+    <br>
+    <h1 style="color: #306881; ">Registro {{usuario.tipo}}</h1>
+        <mat-form-field style="width: 40%; margin-right: 10%;" >
+            <mat-label  style="color: #306881;" >Nombre</mat-label>
+            <input  style="color: black;" matInput type="text" [(ngModel)]="usuario.nombre" name="nombre">
+        </mat-form-field>
+        <mat-form-field style="width: 40%;" >
+            <mat-label  style="color: #306881; margin-right: 0rem;" >Apellido</mat-label>
+            <input  style="color: black;" matInput type="text" [(ngModel)]="usuario.apellido" name="apellido">
+        </mat-form-field>
+        <mat-form-field style="width: 40%; margin-right: 10%;">
+            <mat-label  style="color: #306881;" >Dni</mat-label>
+            <input  style="color: black;" matInput type="number" [(ngModel)]="usuario.dni" name="dni">
+        </mat-form-field>
+        <mat-form-field style="width: 40%;" >
+        <mat-label  style="color: #306881;" >Email</mat-label>
+        <input  style="color: black;" matInput type="email" [(ngModel)]="usuario.email" name="email">
+        </mat-form-field>
+        <div *ngIf="usuario.tipo == 'paciente'">
+            <mat-form-field style="width: 40%; margin-right: 10%;">
+                <mat-label  style="color: #306881;">Edad</mat-label>
+                <input  style="color: black;" matInput type="number" [(ngModel)]="usuario.edad" name="edad">
+            </mat-form-field>
+            <mat-form-field style="width: 40%; margin-right: 0rem;">
+                <mat-label  style="color: #306881;" >Obra Social</mat-label>
+                <input  style="color: black;" matInput type="text" [(ngModel)]="usuario.obraSocial" name="obraSocial">
+            </mat-form-field>
+        </div>
+
+        <mat-form-field style="width: 40%; margin-right: 10%;"  >
+        <mat-label  style="color: #306881;">Contraseña</mat-label>
+        <input style="color: black;" matInput type="password" [(ngModel)]="usuario.clave" name="psw">
+        </mat-form-field>
+        <mat-form-field style="width: 40%;" >
+            <mat-label  style="color: #306881;">Repetir Contraseña</mat-label>
+            <input style="color: black;" matInput type="password" [(ngModel)]="clave" name="psw">
+        </mat-form-field>
+        <div style="float:left; width:50%">
+            <div *ngIf="usuario.tipo == 'profesional'" class="divFoto" >
+                <label class="custom-file">
+                <input class="foto"  style="color: black; " type="file" (change)="onFileSelected($event)" name="psw">
+                <mat-icon>cloud_upload</mat-icon><span class="span">Subir foto </span>
+                <mat-icon *ngIf="img1" style="background-color: #306881; border-radius: 100%;">check_circle</mat-icon>
+                </label>
+            </div>
+        </div>
+        <div *ngIf="usuario.tipo == 'profesional'">
+            <mat-form-field style="width: 40%; margin-right: 0rem;">
+            <mat-label  style="color: #306881;" >Edad</mat-label>
+            <input  style="color: black;" matInput type="number" [(ngModel)]="usuario.edad" name="edad">
+            </mat-form-field>
+        </div>
+        <br>
+
+        <div style="float:left; width:50%">
+            <mat-label  style="color: #306881;" *ngIf="usuario.tipo == 'paciente'">Foto 1</mat-label>
+
+            <div *ngIf="usuario.tipo == 'paciente'" class="divFoto" >
+                <label class="custom-file">
+                <input class="foto"  style="color: black; " type="file" (change)="onFileSelected($event)" name="psw">
+                <mat-icon>cloud_upload</mat-icon><span class="span">Subir foto </span>
+                <mat-icon *ngIf="img1" style="background-color: #306881; border-radius: 100%;">check_circle</mat-icon>
+                </label>
+            </div>
+        </div>
+        <div style="float:left; width:50%">
+            <mat-label  style="color: #306881;" *ngIf="usuario.tipo == 'paciente'">Foto 2</mat-label>
+
+            <div  class="divFoto" *ngIf="usuario.tipo == 'paciente'">
+                <label class="custom-file">
+                    <input class="foto"  style="color: black; " type="file" (change)="onFileSelected2($event)" name="psw">
+                    <mat-icon>cloud_upload</mat-icon><span class="span">Subir foto </span>
+                    <mat-icon *ngIf="img2" style="background-color: #306881; border-radius: 100%;">check_circle</mat-icon>
+                </label>
+            </div>
+        </div>
+
+       <span *ngIf="usuario.tipo == 'profesional'" class="example-list-section">
+        <ul style="padding: 0rem;"> 
+        <mat-label  style="color: #306881;">Especialidades</mat-label>
+        <div style="overflow: auto; height: 6rem; margin-top: 1rem;">
+            <div *ngFor="let item of especialidades" class="especialidad" >
+            <mat-checkbox labelPosition="after" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.completed"
+                            [color]="item.color"
+                            (ngModelChange)="updateAllComplete()">
+                {{item.name}}
+            </mat-checkbox>
+            </div>
+        </div>
+        </ul>
+    </span>
+        <br>
+        <button style="margin-top: 1rem; width: 100%;" class="btn btn-block"   mat-raised-button color="primary"  (click)="Entrar()">Registrarse</button>
+    </form>
+    </mat-card>
+</div>

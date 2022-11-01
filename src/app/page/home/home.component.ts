@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Usuario } from 'src/app/models/models.module';
+import { AuthenticateService } from 'src/app/servicios/authenticate.service';
+import { DataService } from 'src/app/servicios/data.service';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +11,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  usuario:any = new Usuario();
+  constructor(private route:Router,private data:DataService,private auth:AuthenticateService) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
+
+    var uid="0";
+    this.auth.getUserUid().then(res =>{
+      uid = res.toString();
+      this.data.getUserByUid(uid)
+          .subscribe(res => {
+            this.usuario = res;
+          })
+    }).catch(res =>{
+      uid = res.toString();
+      console.log("Sin Usuario");
+    });
+  }
+  
+  logOut()
+  {
+    this.auth.logout();
   }
 
 }

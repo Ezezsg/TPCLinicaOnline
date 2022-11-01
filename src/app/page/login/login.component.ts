@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticateService } from '../../servicios/authenticate.service';
+import { EstadisticasService } from '../../servicios/estadisticas.service';
 
 @Component({
   selector: 'app-login',
@@ -10,59 +10,75 @@ import { AuthenticateService } from '../../servicios/authenticate.service';
 })
 export class LoginComponent implements OnInit {
 
-  public loginForm = new FormGroup({
-		email: new FormControl(''),
-		pass: new FormControl('')
-	});
-	public error: boolean;
-	public mensajeError: string;
-	public submit= false;
-	public usuarioSelect: any = null;
-	public selectUsuarios:any = [
-		{email:'hekoha6519@abudat.com'  ,clave:'111111', tipo:'Paciente' },
-		{email:'admin@admin.com'  ,clave:'admin1', tipo:'Administrador' },
-	]
+  
+	emailClass: '';
+  claveClass: '';
+  email: string;
+  clave: string;
+  recaptcha: '';
+  siteKey: string;
+  desa: boolean = false;
+  sitekey: string;
+  formGroup: FormGroup;
 
-	constructor(private auth: AuthenticateService, private router: Router) {
-	}
-	ngOnInit(): void {
-	}
+  constructor(private auth: AuthenticateService, private formBuilder: FormBuilder, private stats: EstadisticasService) {
+    this.siteKey = '6Le6rO8aAAAAACqYxNhdHrTwqzD0Yl2HGEpBqUF5'
+  }
 
-	public seleccionarUsuario(usuario) {
-		this.loginForm.controls.email.setValue(usuario.email);
-		this.loginForm.controls.pass.setValue(usuario.clave);
-	}
+  ngOnInit(): void {
+    this.formGroup = this.formBuilder.group({
+      recaptcha: ['', Validators.required]
+    });
+  }
 
-	public tryLogin(value) {
-		this.submit=true;
-		this.auth.login(value).then(() => {
-			this.error = false;
-			this.router.navigate(["Principal"]);
-		}).catch(err => {
-			this.submit=false;
-			switch (err) {
-				case "auth/invalid-email":
-					this.mensajeError = 'este email no es valido';
-					break;
-				case "auth/user-disabled":
-					this.mensajeError = 'este usario no esta habilitado';
-					break;
-				case "auth/user-not-found":
-					this.mensajeError = 'no existe este usuario';
-					break;
-				case "auth/wrong-password":
-					this.mensajeError = 'contraseña incorrecta';
-					break;
-				default:
-					this.mensajeError = err;
-			}
-			this.error = true;
-			setTimeout(()=>{
-			this.error = false;
-			},5000);
-		});
-	}
+  usuarios: Array<any> = [
+    { id: 0, nombre: "Administrador", correo: "48f08bb6a4@inboxmail.life", clave: "111111" },
+    { id: 1, nombre: "Paciente", correo: "373dbb63dd@inboxmail.life", clave: "111111" },
+    { id: 2, nombre: "Profesional", correo: "2f0868887e@inboxmail.life", clave: "111111" },
+    { id: 3, nombre: "Profesional", correo: "a8ab8b1303@inboxmail.life", clave: "111111" }
+  ]
 
+  onChange(id) {
+    console.log("llega");
+    console.info(this.usuarios[id].correo);
+    this.email = this.usuarios[id].correo;
+    this.clave = this.usuarios[id].clave;
+  }
+
+  Entrar() {
+    if (this.recaptcha != '') {
+      this.auth.login(this.email, this.clave).then(res => {
+        console.log("se loguea");
+        this.stats.logger(this.email);
+      }).catch(error => {
+        console.log("anda");
+      })
+    }
+
+  }
+
+  resolved(captchaResponse: any) {
+    this.recaptcha = captchaResponse;
+    console.log("captcha: " + this.recaptcha);
+  }
+
+
+  Paciente() {
+    this.onChange(1);
+  }
+
+  Medico() {
+    this.onChange(2);
+  }
+
+  Medico2() {
+    this.onChange(3);
+  }
+
+  Admin() {
+    this.onChange(0);
+  }
+	
   
 
 }

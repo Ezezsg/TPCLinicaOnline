@@ -1,45 +1,42 @@
-<div class="text-center contenedor">
-    <form role="form" [formGroup]="loginForm" class="form-signin">
-      <div *ngIf='!submit; else spinner'>
-      <i class="fa fa-user-circle-o" style="font-size: 150px;"></i>
-      <h1 class="h3 mb-3 font-weight-normal">
+<head>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script>
+      function onSubmit(token) {
+        document.getElementById("demo-form").submit();
+      }
+    </script>
+  </head>
+  <mat-toolbar style="background-color: #306881; color: white;" class="expanded-toolbar">
+      
         Iniciar Sesión
-      </h1>
-      <select class="form-control" [(ngModel)]='usuarioSelect' [ngModelOptions]="{standalone: true}" (ngModelChange)='seleccionarUsuario($event)'>
-        <option [value]="null">Elige una opción</option>
-        <option *ngFor='let usuario of selectUsuarios' [ngValue]='usuario'>{{usuario.email}} ({{usuario.tipo}})</option>
-      </select>
-      <label class="sr-only" for="inputEmail">
-        Correo Electrónico
-      </label>
-      <input class="form-control" id="inputEmail" formControlName="email" placeholder="Correo Electronico" autocomplete="username" required type="email">
-      <label class="sr-only" for="inputPassword">
-        Contraseña
-      </label>
-      <input class="form-control" id="inputPassword" formControlName="pass" placeholder="Contraseña" autocomplete="current-password" required type="password">
-      <div *ngIf='this.error' class="form-group text-center">
-        <label class="text-danger">{{this.mensajeError}}</label>
-      </div>
-      <div class="row">
-        <div class="col">
-          <button class="btn btn-primary btn-block" type="submit" (click)="tryLogin(loginForm.value)">
-            Iniciar Sesión
-          </button>
-        </div>
-        <div class="col">
-          <button class="btn btn-success btn-block" type="button" routerLink='/Registro'>
-            Registrarse
-          </button>
-        </div>
-      </div>
-      </div>
-      <ng-template #spinner>
-        <div class="text-center">
-          <div class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
-            <span class="sr-only">Loading...</span>
+    </mat-toolbar>
+    <div class="contenedor">
+      <mat-card class="container ld ld-blur-in">
+        
+        <div mat-card-avatar class="example-header-image"></div>
+        <form class="example-form">
+          <div>
+            <img src="../../../assets/imagenes/paciente.png" class ="imgRedonda" (click)="Paciente()">
+            <img src="../../../assets/imagenes/medico.png" class="imgRedonda" (click)="Medico()">
+            <img src="../../../assets/imagenes/medico.png" class="imgRedonda" (click)="Medico2()">
+            <img src="../../../assets/imagenes/admin.png" class="imgRedonda" (click)="Admin()">
           </div>
-        </div>
-      </ng-template>
-    </form>
-</div>
-  
+          <br>
+          <mat-form-field style="width: 100%;" class="full-width-input">
+            <mat-label  style="color: #306881;" >Email</mat-label>
+            <input  style="color: black;" matInput type="email" [(ngModel)]="email" name="email">
+          </mat-form-field>
+          <mat-form-field style="width: 100%;"  class="full-width-input">
+            <mat-label  style="color: #306881;">Contraseña</mat-label>
+            <input style="color: black;" matInput type="password" [(ngModel)]="clave" name="psw">
+          </mat-form-field>
+          <br>
+          <div class="recaptcha">
+            <re-captcha (resolved)="resolved($event)" [(siteKey)]="this.siteKey"></re-captcha>
+          </div>
+          <button [disabled]="!recaptcha" style="margin-top: 2rem;width: 100%;" class="btn btn-block"   mat-raised-button color="primary"  (click)="Entrar()">Ingresar</button>
+        </form>
+        <br>
+        <h3>¿No tenés usuario?  <a href="/registro">Registrate</a></h3>
+      </mat-card>
+    </div>
