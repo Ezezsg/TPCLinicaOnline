@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   formGroup: FormGroup;
 
   constructor(private auth: AuthenticateService, private formBuilder: FormBuilder, private stats: EstadisticasService) {
-    this.siteKey = '6Le6rO8aAAAAACqYxNhdHrTwqzD0Yl2HGEpBqUF5'
+    this.siteKey = '6LfJQtAiAAAAAGfmVLwo6ZirGDStENJFzAtSimkS'
   }
 
   ngOnInit(): void {
