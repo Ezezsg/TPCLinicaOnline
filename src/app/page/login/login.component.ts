@@ -35,7 +35,9 @@ export class LoginComponent implements OnInit {
     { id: 0, nombre: "Administrador", correo: "48f08bb6a4@inboxmail.life", clave: "111111" },
     { id: 1, nombre: "Paciente", correo: "373dbb63dd@inboxmail.life", clave: "111111" },
     { id: 2, nombre: "Profesional", correo: "2f0868887e@inboxmail.life", clave: "111111" },
-    { id: 3, nombre: "Profesional", correo: "a8ab8b1303@inboxmail.life", clave: "111111" }
+    { id: 3, nombre: "Profesional", correo: "a8ab8b1303@inboxmail.life", clave: "111111" },
+    { id: 4, nombre: "Paciente", correo: "63e6014cf9@inboxmail.life", clave: "111111" },
+    { id: 5, nombre: "Paciente", correo: "6a931c8fab@inboxmail.life", clave: "111111" }
   ]
 
   onChange(id) {
@@ -65,6 +67,14 @@ export class LoginComponent implements OnInit {
 
   Paciente() {
     this.onChange(1);
+  }
+
+  Paciente2() {
+    this.onChange(4);
+  }
+
+  Paciente3() {
+    this.onChange(5);
   }
 
   Medico() {
