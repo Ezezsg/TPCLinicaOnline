@@ -53,7 +53,11 @@ import { AltaAdminComponent } from './page/alta-admin/alta-admin.component';
 import * as firebase from 'firebase';
 
 import { ToastrModule, ToastrService } from 'ngx-toastr';
-import { NavComponent } from './componentes/nav/nav.component'; 
+import { NavComponent } from './componentes/nav/nav.component';
+import { MiperfilComponent } from './page/miperfil/miperfil.component';
+import { ListaUsuariosComponent } from './page/lista-usuarios/lista-usuarios.component';
+import { ListaComponent } from './componentes/lista/lista.component';
+import { PaginatePipe } from './pipes/paginate.pipe';
 
 
 
@@ -66,7 +70,11 @@ import { NavComponent } from './componentes/nav/nav.component';
     CapchaComponent,
     AltaAdminComponent,
     BienvenidosComponent,
-    NavComponent
+    NavComponent,
+    MiperfilComponent,
+    ListaUsuariosComponent,
+    ListaComponent,
+    PaginatePipe,
   ],
   imports: [
     BrowserModule,

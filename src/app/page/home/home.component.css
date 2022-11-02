@@ -9,12 +9,12 @@
     color: black;
     font-size: 16px;
   }
-  .contenedor{
+  .contenedor2{
     font-family: 'Quicksand', sans-serif;
-    width: 90%;
-    max-width: 800px;
-    margin: auto;
-    overflow: hidden;
+    height: 100%;
+    background-image:url('../../../assets/imagenes/fondoHome.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
   }
   
   /* Header */

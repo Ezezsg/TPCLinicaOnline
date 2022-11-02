@@ -34,6 +34,7 @@
           <div class="recaptcha">
             <re-captcha (resolved)="resolved($event)" [(siteKey)]="this.siteKey"></re-captcha>
           </div>
+          <!-- <button style="margin-top: 2rem;width: 100%;" class="btn btn-block"   mat-raised-button color="primary"  (click)="Entrar()">Ingresar</button> -->
           <button [disabled]="!recaptcha" style="margin-top: 2rem;width: 100%;" class="btn btn-block"   mat-raised-button color="primary"  (click)="Entrar()">Ingresar</button>
         </form>
         <br>
