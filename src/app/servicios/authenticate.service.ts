@@ -227,6 +227,7 @@ export class AuthenticateService {
 			email: usuario.email,
 			rol: usuario.tipo,
 			dni: usuario.dni,
+			edad: usuario.edad,
 			estado: true,
 			especialidades: especialidades,
 			img1: url,
@@ -279,8 +280,18 @@ export class AuthenticateService {
 	}
   
 	//Registro de Admin
-	async registerAdmin(usuario: Usuario) {
-	  return new Promise((resolve, reject) => {
+	async registerAdmin(usuario: Usuario, img1) {
+	  return new Promise(async (resolve, reject) => {
+		try{  
+		const imgRef = await this.subirArchivo(usuario.email + '_img1', img1, {
+		  nombre: usuario.nombre,
+          apellido: usuario.apellido,
+          dni: usuario.dni,
+          id: usuario.id,
+          email: usuario.email,
+          rol: usuario.rol,
+        });
+		const url = await imgRef.ref.getDownloadURL();
 		this.angularFireAuth
 		  .createUserWithEmailAndPassword(usuario.email, usuario.clave)
 		  .then((res) => {
@@ -294,12 +305,14 @@ export class AuthenticateService {
 			  rol: usuario.rol,
 			  dni: usuario.dni,
 			  estado: true,
+			  img1: url,
 			});
 			resolve(res);
-		  })
-		  .catch((error) => {
-			reject(error);
-		  });
+		  }) }
+		  	catch (err) {
+			this.toas.error(err, 'Error');
+			reject(err);
+		  }
 	  });
 	}
   

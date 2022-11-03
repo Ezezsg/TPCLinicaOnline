@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
   }
 
   usuarios: Array<any> = [
-    { id: 0, nombre: "Administrador", correo: "48f08bb6a4@inboxmail.life", clave: "111111" },
+    { id: 0, nombre: "Administrador", correo: "afb6143e15@inboxmail.life", clave: "111111" },
     { id: 1, nombre: "Paciente", correo: "373dbb63dd@inboxmail.life", clave: "111111" },
     { id: 2, nombre: "Profesional", correo: "2f0868887e@inboxmail.life", clave: "111111" },
     { id: 3, nombre: "Profesional", correo: "a8ab8b1303@inboxmail.life", clave: "111111" },

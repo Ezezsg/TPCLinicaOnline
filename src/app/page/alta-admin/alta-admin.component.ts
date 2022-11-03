@@ -31,7 +31,7 @@ export class AltaAdminComponent implements OnInit {
     
     if(this.validacion())
     {
-      this.auth.registerAdmin(this.usuario);
+      this.auth.registerAdmin(this.usuario, this.img1);
       this.router.navigateByUrl('home');
     }
   }
@@ -42,7 +42,15 @@ export class AltaAdminComponent implements OnInit {
     {
       if(this.usuario.clave == this.clave)
       {
+        if(this.usuario.img1 != null)
+          {
             return true;
+          }
+          else
+          {
+            this.toastr.error("La imagen es requerida", "ERROR");
+            return false;
+          }
       }
       else
       {
@@ -66,6 +74,12 @@ export class AltaAdminComponent implements OnInit {
     this.usuario.rol = "admin";
       
 
+  }
+
+  onFileSelected(event) {
+    this.img1 = event.target.files[0];
+    this.usuario.img1=" ";
+    console.log(this.img1);
   }
 
 	

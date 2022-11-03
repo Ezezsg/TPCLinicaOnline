@@ -1,6 +1,8 @@
 <div class="contenedor" >
     <mat-card class="container" >
-      
+      <div class="imgcontainer">
+        <img src="../../../assets/imagenes/login.png" alt="Avatar" class="avatar" style="width: 200px;" >
+      </div>
       <div mat-card-avatar class="example-header-image"></div>
 
       <form class="example-form">
@@ -31,6 +33,15 @@
             <mat-label  style="color: #306881;">Repetir Contraseña</mat-label>
             <input style="color: black;" matInput type="password" [(ngModel)]="clave" name="psw">
         </mat-form-field>
+        <div style="float:left; width:40%; margin-right: 10%;">
+            <div class="divFoto" >
+              <label class="custom-file">
+              <input class="foto"  style="color: black; " type="file" (change)="onFileSelected($event)" name="psw">
+              <mat-icon>cloud_upload</mat-icon><span class="span">Subir foto </span>
+              <mat-icon *ngIf="img1" style="background-color: #306881; border-radius: 100%;">check_circle</mat-icon>
+              </label>
+            </div>
+        </div>
         <br>
         <button style="margin-top: 2rem; width: 90%;" class="btn btn-block"   mat-raised-button color="primary"  (click)="Entrar()">Registrarse</button>
       </form>

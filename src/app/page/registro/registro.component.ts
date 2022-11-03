@@ -26,6 +26,7 @@ export class RegistroComponent implements OnInit {
   claveClass:'';
   email:string;
   clave:string;
+  edad:number
   usuario:Usuario = new Usuario();
   img1:any;
   img2:any;
@@ -70,7 +71,7 @@ export class RegistroComponent implements OnInit {
 
   validacion()
   {  
-    if(this.usuario.nombre != null && this.usuario.apellido !=null && this.usuario.email !=null && this.usuario.dni !=null && this.usuario.clave !=null && this.clave !=null && this.usuario.tipo)
+    if(this.usuario.nombre != null && this.usuario.apellido !=null && this.usuario.email !=null && this.usuario.dni !=null && this.usuario.clave !=null && this.clave !=null && this.usuario.tipo && this.usuario.edad !=null)
     {
       if(this.usuario.clave == this.clave)
       {

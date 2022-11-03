@@ -1,0 +1,56 @@
+<header>
+    <div class="contenedor ld ld-float-rtl-in">
+      <div class="contenedor_texto">
+          <div class="texto">
+              <h1 class="nombre">{{nombre}} {{apellido}}</h1>
+            <h2 class="profesion">Bienvenido</h2>
+          </div>
+      </div>
+    </div>
+</header>
+<section class="main ">
+  <section class="acerca_de ">
+      <div class="contenedor ld ld-blur-in">
+          <div *ngIf="rol != 'paciente' && rol != 'profesional'" class="foto ld ld-vortex-in">
+              <img class="img" src="../../../assets/imagenes/login.png" width="250" height="250">
+          </div>
+          <div *ngIf="rol == 'paciente'||rol == 'profesional'" class="foto ld ld-vortex-in">
+            <img class="img" [src]="img1" width="250" height="250">
+        </div>
+          <div id="quien" class="texto">
+            <br>
+              <h3 class="titulo">Clinica OnLine</h3>
+              <br>
+          </div>
+          
+          
+          <div class="fila">
+            <div id="misTurnos" (click)="turnos()" class="turnos" style="margin-right: 5rem;">
+              <label *ngIf="rol =='paciente'" for="" style="font-size: 2rem;">Mis turnos</label>
+              <label *ngIf="rol!='paciente'" for="" style="font-size: 2rem;"> Turnos</label>
+              <div>
+                  <img style="width: 15rem; height: 15rem;" src="../../../assets/imagenes/misturnos.png" alt="">
+            </div>
+            </div>
+            <div *ngIf="rol == 'paciente'" (click)="solicitarTurno()" id="turnos" class="turnos">
+              <label for="" style="font-size: 2rem;">Solicitar Turno</label>
+              <div style="align-items: center;">
+                <img style="width: 14rem; height: 14rem;" src="../../../assets/imagenes/turno.png" alt="">
+              </div>
+            </div>
+            <div *ngIf="rol == 'admin'" (click)="altaAdmin()" id="turnos" class="turnos" style="margin-left: 5rem;">
+              <label  for="" style="font-size: 2rem;">Alta Admin</label>
+                    <img style="width: 18rem; height: 18rem;" src="../../../assets/imagenes/user.png" alt="">
+            </div>
+             <div *ngIf="rol == 'profesional'" (click)="horarios()" id="turnos" class="turnos">
+            <label  for="" style="font-size: 2rem;"> Tus Horarios</label>
+            <img style="width: 18rem; height: 15rem;" src="../../../assets/imagenes/alarma.png" alt="">
+          </div>
+        </div>
+        
+          
+      
+      </div>
+  </section>
+  
+</section>

@@ -58,6 +58,8 @@ import { MiperfilComponent } from './page/miperfil/miperfil.component';
 import { ListaUsuariosComponent } from './page/lista-usuarios/lista-usuarios.component';
 import { ListaComponent } from './componentes/lista/lista.component';
 import { PaginatePipe } from './pipes/paginate.pipe';
+import { VerificacionCuentaComponent } from './componentes/verificacion-cuenta/verificacion-cuenta.component';
+import { InicioComponent } from './page/inicio/inicio.component';
 
 
 
@@ -75,6 +77,8 @@ import { PaginatePipe } from './pipes/paginate.pipe';
     ListaUsuariosComponent,
     ListaComponent,
     PaginatePipe,
+    VerificacionCuentaComponent,
+    InicioComponent,
   ],
   imports: [
     BrowserModule,
