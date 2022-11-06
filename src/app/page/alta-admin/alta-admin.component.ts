@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Usuario } from 'src/app/models/models.module';
 import { DataService } from 'src/app/servicios/data.service';
 import { AuthenticateService } from 'src/app/servicios/authenticate.service';
-import { Router } from '@angular/router';
+// import { Router } from '@angular/router';
 
 
 @Component({
@@ -24,7 +24,7 @@ export class AltaAdminComponent implements OnInit {
   lista:Array<any>;
   especialidades:Array<any> = new Array<any>();
 
-  constructor(private auth:AuthenticateService, private data:DataService, private toastr:ToastrService, private router : Router ) { }
+  constructor(private auth:AuthenticateService, private data:DataService, private toastr:ToastrService ) { }
  
 
   Entrar(){
@@ -32,7 +32,6 @@ export class AltaAdminComponent implements OnInit {
     if(this.validacion())
     {
       this.auth.registerAdmin(this.usuario, this.img1);
-      this.router.navigateByUrl('home');
     }
   }
 

@@ -26,7 +26,7 @@ export class VerificacionCuentaComponent implements OnInit {
   loguearse()
   {
     //this.route.navigate(['/Login']);
-    this.auth.logout();
+    this.auth.logout2();
   }
   rEmail(){
     this.auth.sendVerificationEmail().then(res =>{

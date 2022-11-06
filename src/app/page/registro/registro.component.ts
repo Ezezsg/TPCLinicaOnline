@@ -6,7 +6,7 @@ import { AuthenticateService } from '../../servicios/authenticate.service';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+// import { Router } from '@angular/router';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -33,7 +33,7 @@ export class RegistroComponent implements OnInit {
   lista:Array<any>;
   especialidades:Array<any> = new Array<any>();
 
-  constructor(private auth:AuthenticateService, private data:DataService, private toastr:ToastrService, private router : Router ) { }
+  constructor(private auth:AuthenticateService, private data:DataService, private toastr:ToastrService ) { }
   
   emailFormControl = new FormControl('', [
     Validators.required,
@@ -54,7 +54,7 @@ export class RegistroComponent implements OnInit {
         {
           this.auth.signUp(this.usuario,this.img1,this.img2);
         }
-        this.router.navigateByUrl('login');
+        
     }
   }
 

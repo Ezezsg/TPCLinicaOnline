@@ -69,6 +69,13 @@ export class AuthenticateService {
 		this.router.navigate(['']);
 	  });
 	}
+
+	logout2() {
+		this.angularFireAuth.signOut().then(() => {
+		  localStorage.clear();
+		  this.router.navigate(['login']);
+		});
+	  }
   
 	async login(email: string, password: string) {
 	  return new Promise(async (resolve, reject) => {

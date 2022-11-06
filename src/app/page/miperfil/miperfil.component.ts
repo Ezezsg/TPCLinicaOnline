@@ -62,6 +62,7 @@ export class MiperfilComponent implements OnInit {
       this.especialidades = a;
       console.log(a)
     });
+
   }
 
   toPDF() {
