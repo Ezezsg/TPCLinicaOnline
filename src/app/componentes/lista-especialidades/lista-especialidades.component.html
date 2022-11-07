@@ -1,0 +1,52 @@
+<div class="div1">
+    
+    <!-- <table class="table table-hover table-bordered animated fadeIn faster ld ld-slide-ttb-in">
+        <thead>
+          <tr class="bg-primary" style="color: white;">
+            <th>Especialidades</th>
+          </tr>
+        </thead>
+        <tbody >
+          <tr *ngFor="let especialidad of listado  let i=index" (click)="tomarEspecialidad(especialidad)">
+            <td id="{{i}}" [ngStyle]="{'background-color': col}" >{{especialidad.nombre}} 
+            </td>
+          </tr>     
+        </tbody>
+      </table> -->
+      <div style="float: left; margin-right: 2rem;" (click)="tomarEspecialidad(listado[1])">
+        <img src="../../../assets/imagenes/login.png" class="imgRedonda">
+        <div>
+          <p class="textImg">Neurología</p>
+        </div>
+      </div>
+      <div style="float: left ; margin-right: 2rem;" (click)="tomarEspecialidad(listado[0])">
+        <img src="../../../assets/imagenes/login.png" class="imgRedonda">
+        <div style="align-items: center;">
+          <p class="textImg">Oftalmología</p>
+        </div>
+      </div>
+      <div style="float: left; margin-right: 2rem;" (click)="tomarEspecialidad(listado[2])">
+        <img src="../../../assets/imagenes/login.png" class="imgRedonda">
+        <div style="align-items: center;">
+          <p class="textImg">Psiquiatría</p>
+        </div>
+      </div>
+      <div style="float: left; margin-right: 2rem;" (click)="tomarEspecialidad(listado[3])">
+        <img src="../../../assets/imagenes/login.png" class="imgRedonda">
+        <div style="align-items: center;">
+          <p class="textImg">Pediatría</p>
+        </div>
+      </div>
+      <div style="float: left; margin-right: 2rem;" (click)="tomarEspecialidad(listado[4])">
+        <img src="../../../assets/imagenes/login.png" class="imgRedonda">
+        <div style="align-items: center;">
+          <p class="textImg">Cardiología</p>
+        </div>
+      </div>
+      <div style="float: left; margin-right: 2rem;" (click)="tomarEspecialidad(listado[5])">
+        <img src="../../../assets/imagenes/login.png" class="imgRedonda">
+        <div style="align-items: center;">
+          <p class="textImg">Radiología</p>
+        </div>
+      </div>
+</div>

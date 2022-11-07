@@ -1,0 +1,9 @@
+<div *ngFor="let profesional of listado" (click)="seleccionarProfesional(profesional)" style="float:left">
+    <div class="container">
+      <img [src]="profesional.img1" alt="" width="75" height="75"class="imgRedonda">
+      <p class="text">{{profesional.apellido}}</p> 
+      <p class="text">{{profesional.nombre}}</p>
+      <p class="text">{{profesional.especialidad}}</p>
+  </div>
+</div>
+

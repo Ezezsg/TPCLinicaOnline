@@ -29,6 +29,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 //Firebase
 import { AngularFireModule, FirebaseApp } from '@angular/fire';
@@ -60,6 +61,29 @@ import { ListaComponent } from './componentes/lista/lista.component';
 import { PaginatePipe } from './pipes/paginate.pipe';
 import { VerificacionCuentaComponent } from './componentes/verificacion-cuenta/verificacion-cuenta.component';
 import { InicioComponent } from './page/inicio/inicio.component';
+import { SolicitarTurnoComponent } from './componentes/solicitar-turno/solicitar-turno.component';
+import { ListaProfesionalesComponent } from './componentes/lista-profesionales/lista-profesionales.component';
+import { ListaFechaHoraComponent } from './componentes/lista-fecha-hora/lista-fecha-hora.component';
+import { ConfirmarTurnoComponent } from './componentes/confirmar-turno/confirmar-turno.component';
+import { HorariosComponent } from './componentes/horarios/horarios.component';
+import { TurnosListComponent } from './componentes/turnos-list/turnos-list.component';
+import { ModalTurnoComponent } from './componentes/modal-turno/modal-turno.component';
+import { ModalTurnoDetalleComponent } from './componentes/modal-turno-detalle/modal-turno-detalle.component';
+import { BusquedaPipe } from './pipes/busqueda.pipe';
+import { PacientesComponent } from './componentes/pacientes/pacientes.component';
+import { ListaPacientesComponent } from './componentes/lista-pacientes/lista-pacientes.component';
+import { TurnosListPacientesComponent } from './componentes/turnos-list-pacientes/turnos-list-pacientes.component';
+import { CalificacionPipe } from './pipes/calificacion.pipe';
+import { EstadoTurnoPipe } from './pipes/estado-turno.pipe';
+import { FechaPipe } from './pipes/fecha.pipe';
+import { MesesPipe } from './pipes/meses.pipe';
+import { SacarTurnoComponent } from './componentes/sacar-turno/sacar-turno.component';
+import { ListaEspecialidadesComponent } from './componentes/lista-especialidades/lista-especialidades.component';
+import { SortTurnosPipe } from './pipes/sort-turnos.pipe';
+import { FiltroPipe } from './pipes/filtro.pipe';
+import { ListaMedicosComponent } from './componentes/lista-medicos/lista-medicos.component';
+import { LogListComponent } from './componentes/log-list/log-list.component';
+import { TurnoDetalleComponent } from './componentes/turno-detalle/turno-detalle.component';
 
 
 
@@ -79,6 +103,29 @@ import { InicioComponent } from './page/inicio/inicio.component';
     PaginatePipe,
     VerificacionCuentaComponent,
     InicioComponent,
+    SolicitarTurnoComponent,
+    ListaProfesionalesComponent,
+    ListaFechaHoraComponent,
+    ConfirmarTurnoComponent,
+    HorariosComponent,
+    TurnosListComponent,
+    ModalTurnoComponent,
+    ModalTurnoDetalleComponent,
+    BusquedaPipe,
+    PacientesComponent,
+    ListaPacientesComponent,
+    TurnosListPacientesComponent,
+    CalificacionPipe,
+    EstadoTurnoPipe,
+    FechaPipe,
+    MesesPipe,
+    SacarTurnoComponent,
+    ListaEspecialidadesComponent,
+    SortTurnosPipe,
+    FiltroPipe,
+    ListaMedicosComponent,
+    LogListComponent,
+    TurnoDetalleComponent,
   ],
   imports: [
     BrowserModule,
@@ -116,6 +163,7 @@ import { InicioComponent } from './page/inicio/inicio.component';
     RecaptchaModule,
     ToastrModule.forRoot(),
     AngularFireStorageModule,
+    MatButtonToggleModule
   ],
   providers: [
     AngularFireAuth,

@@ -12,6 +12,10 @@ import { ListaUsuariosComponent } from './page/lista-usuarios/lista-usuarios.com
 import { MiperfilComponent } from './page/miperfil/miperfil.component';
 import { VerificacionCuentaComponent } from './componentes/verificacion-cuenta/verificacion-cuenta.component';
 import { InicioComponent } from './page/inicio/inicio.component';
+import { SolicitarTurnoComponent } from './componentes/solicitar-turno/solicitar-turno.component';
+import { HorariosComponent } from './componentes/horarios/horarios.component';
+import { TurnosListComponent } from './componentes/turnos-list/turnos-list.component';
+import { PacientesComponent } from './componentes/pacientes/pacientes.component';
 
 
 
@@ -27,6 +31,10 @@ const routes: Routes = [
       { path: 'altaAdmin', component: AltaAdminComponent, canActivate: [AuthGuard] },
       { path: 'usuarios', component: ListaUsuariosComponent, canActivate: [AuthGuard] },
       { path: 'miperfil', component: MiperfilComponent, canActivate: [AuthGuard] },
+      { path: 'sacarTurno', component: SolicitarTurnoComponent, canActivate: [AuthGuard] },
+      { path: 'horarios', component: HorariosComponent, canActivate: [AuthGuard] },
+      { path: 'listadoTurnos', component: TurnosListComponent, canActivate: [AuthGuard] },
+      { path: 'pacientes', component: PacientesComponent, canActivate: [AuthGuard] },
     ]
   },
   { path: 'models', loadChildren: () => import('./models/models.module').then(m => m.ModelsModule) },

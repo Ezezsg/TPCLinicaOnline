@@ -1,0 +1,6 @@
+<div class="div1" *ngIf="listado">
+    <div *ngFor="let fecha of listado |sortTurnos  let i = index" (click)="seleccionarFecha(fecha)">
+      <div class="container">
+        <td>{{fecha.numero}} de {{fecha.mes |meses}} a las {{fecha.hora}}</td>
+    </div>
+</div>
