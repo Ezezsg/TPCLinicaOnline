@@ -79,7 +79,7 @@ export class SacarTurnoComponent implements OnInit {
 
   Entrar(){  
     this.turno.paciente = this.usuario;
-
+    
       this.auth.registerTurnos(this.turno).then(res=>{
         console.log("Guarda bien el turno");
         this.toastr.success("Turno Guardado con Éxito");

@@ -16,6 +16,7 @@ import { SolicitarTurnoComponent } from './componentes/solicitar-turno/solicitar
 import { HorariosComponent } from './componentes/horarios/horarios.component';
 import { TurnosListComponent } from './componentes/turnos-list/turnos-list.component';
 import { PacientesComponent } from './componentes/pacientes/pacientes.component';
+import { SacarTurnoComponent } from './componentes/sacar-turno/sacar-turno.component';
 
 
 
@@ -31,7 +32,8 @@ const routes: Routes = [
       { path: 'altaAdmin', component: AltaAdminComponent, canActivate: [AuthGuard] },
       { path: 'usuarios', component: ListaUsuariosComponent, canActivate: [AuthGuard] },
       { path: 'miperfil', component: MiperfilComponent, canActivate: [AuthGuard] },
-      { path: 'sacarTurno', component: SolicitarTurnoComponent, canActivate: [AuthGuard] },
+      { path: 'sacarTurno', component: SacarTurnoComponent, canActivate: [AuthGuard] },
+      { path: 'solicitarTurno', component: SolicitarTurnoComponent, canActivate: [AuthGuard] },
       { path: 'horarios', component: HorariosComponent, canActivate: [AuthGuard] },
       { path: 'listadoTurnos', component: TurnosListComponent, canActivate: [AuthGuard] },
       { path: 'pacientes', component: PacientesComponent, canActivate: [AuthGuard] },
