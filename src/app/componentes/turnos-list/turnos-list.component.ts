@@ -99,7 +99,7 @@ export class TurnosListComponent implements OnInit {
         })
         .catch((error) => {
           this.toast.error(
-            'Hemos tenido un problema la cancelar el turno',
+            'Hemos tenido un problema al cancelar el turno',
             'Error'
           );
         });

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireAuth} from '@angular/fire/auth';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
 
@@ -20,6 +20,7 @@ import {
 import { promise } from 'protractor';
 import { rejects } from 'assert';
 import { ToastrService } from 'ngx-toastr';
+import { threadId } from 'worker_threads';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +38,9 @@ export class AuthenticateService {
 	) {
 	  this.usuario = this.angularFireAuth.authState;
 	}
-  
+
+	
+	
 	getCurrentUserMail(): string {
 	  return firebase.default.auth().currentUser.email;
 	}
@@ -251,39 +254,37 @@ export class AuthenticateService {
   
 	//Registro Turnos
 	async registerTurnos(turno: Turnos) {
-	  return new Promise((resolve, reject) => {
-		this.db
-		  .collection('turnos')
-		  .ref.orderBy('id', 'desc')
-		  .limit(1)
-		  .get()
-		  .then((res) => {
-			res.forEach((a) => {
-			  let ida = Number(a.id) + 1;
+	  return new Promise(async (resolve, reject) => {
+		let id = this.db.createId();
+		await 
+			
+			  
+			  
 			  this.db
 				.collection('turnos')
-				.doc(ida.toString())
+				.doc(id)
 				.set({
 				  paciente: turno.paciente,
 				  profesional: turno.profesional,
 				  //fecha: turno.fecha.getFullYear() + "-" + (turno.fecha.getMonth()+1) + "-" + turno.fecha.getDate(),
 				  fecha: turno.fecha,
-				  id: ida,
+				  id: id,
 				  hora: turno.hora,
 				  estado: turno.estado,
 				  especialidad: turno.especialidad,
 				  comentario: turno.comentario,
 				})
 				.then((res) => {
+				  
 				  resolve(true);
 				})
 				.catch((error) => {
 				  reject(error);
 				  this.toas.error(error, 'Error');
 				});
-			});
-		  });
-	  });
+			
+		  
+	  });//
 	}
   
 	//Registro de Admin
