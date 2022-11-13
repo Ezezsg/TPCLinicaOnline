@@ -84,6 +84,11 @@ import { FiltroPipe } from './pipes/filtro.pipe';
 import { ListaMedicosComponent } from './componentes/lista-medicos/lista-medicos.component';
 import { LogListComponent } from './componentes/log-list/log-list.component';
 import { TurnoDetalleComponent } from './componentes/turno-detalle/turno-detalle.component';
+import { EstadisticasComponent } from './page/estadisticas/estadisticas.component';
+import { GraficosColumnaComponent } from './componentes/graficos-columna/graficos-columna.component';
+import { GraficosDiasComponent } from './componentes/graficos-dias/graficos-dias.component';
+import { GraficosTurnosSolicitadosComponent } from './componentes/graficos-turnos-solicitados/graficos-turnos-solicitados.component';
+import { GraficosTurnosFinalizadosComponent } from './componentes/graficos-turnos-finalizados/graficos-turnos-finalizados.component';
 
 
 
@@ -126,6 +131,11 @@ import { TurnoDetalleComponent } from './componentes/turno-detalle/turno-detalle
     ListaMedicosComponent,
     LogListComponent,
     TurnoDetalleComponent,
+    EstadisticasComponent,
+    GraficosColumnaComponent,
+    GraficosDiasComponent,
+    GraficosTurnosSolicitadosComponent,
+    GraficosTurnosFinalizadosComponent,
   ],
   imports: [
     BrowserModule,

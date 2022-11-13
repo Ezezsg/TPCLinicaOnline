@@ -74,7 +74,8 @@ export class EstadisticasService {
           turnosSolicitados: this.cantTurnosSolicitados(arrTurnos, arrMedicos),
           turnosFinalizados: this.cantTurnosFinalizados(arrTurnos, arrMedicos)
         })
-
+        console.log("cantTurnosEspecialidad: ", this.cantTurnosEspecialidad(arrTurnos));  
+        console.log("cantTurnosFinalizados: ", this.cantTurnosFinalizados(arrTurnos, arrMedicos));
       } catch (error) {
         rejects(error);
       }
@@ -82,7 +83,7 @@ export class EstadisticasService {
   }
 
   private cantTurnosEspecialidad(arr: Array<Turnos>) {
-    const especialidades: Array<string> = ['Oftalmología', 'Neurologia', 'Psiquiatría', 'Pediatría', 'Cardiologia', 'Radiología']
+    const especialidades: Array<string> = ['Oftalmología', 'Neurología', 'Psiquiatría', 'Pediatría', 'Cardiología', 'Radiología']
     let cant: Array<any> = []
 
     especialidades.forEach((a, index) => {
@@ -101,7 +102,7 @@ export class EstadisticasService {
 
   private cantTurnosDia(arr: Array<Turnos>) {
     let cant: Array<any> = []
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     days.forEach((c, index) => {
       cant.push({
         type: undefined,
@@ -131,7 +132,7 @@ export class EstadisticasService {
         if (t.profesional.uid === m.uid && t.estado === 0 && new Date(t.fecha) >= date) cant[index].data[0]++;
       });
     });
-
+    
     return cant;
   }
 
@@ -149,7 +150,7 @@ export class EstadisticasService {
         if (t.profesional.uid === m.uid && t.estado > 1 && new Date(t.fecha) >= date) cant[index].data[0]++;
       });
     });
-
+    
     return cant;
   }
 }

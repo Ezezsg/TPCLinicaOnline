@@ -17,6 +17,7 @@ import { HorariosComponent } from './componentes/horarios/horarios.component';
 import { TurnosListComponent } from './componentes/turnos-list/turnos-list.component';
 import { PacientesComponent } from './componentes/pacientes/pacientes.component';
 import { SacarTurnoComponent } from './componentes/sacar-turno/sacar-turno.component';
+import { EstadisticasComponent } from './page/estadisticas/estadisticas.component';
 
 
 
@@ -37,6 +38,7 @@ const routes: Routes = [
       { path: 'horarios', component: HorariosComponent, canActivate: [AuthGuard] },
       { path: 'listadoTurnos', component: TurnosListComponent, canActivate: [AuthGuard] },
       { path: 'pacientes', component: PacientesComponent, canActivate: [AuthGuard] },
+      { path: 'estadisticas', component: EstadisticasComponent, canActivate: [AuthGuard] },
     ]
   },
   { path: 'models', loadChildren: () => import('./models/models.module').then(m => m.ModelsModule) },
