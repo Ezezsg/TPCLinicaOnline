@@ -22,10 +22,10 @@ import { EstadisticasComponent } from './page/estadisticas/estadisticas.componen
 
 
 const routes: Routes = [
-  { path : 'bienvenido', component: BienvenidosComponent},
+  { path : 'bienvenido', component: BienvenidosComponent, data:{ animation: 'bienvenido'}},
   { path: '', pathMatch:'full', redirectTo: 'bienvenido'},
-  { path: 'login', component: LoginComponent},
-  { path: 'registro', component: RegistroComponent},
+  { path: 'login', component: LoginComponent, data:{ animation: 'login'}},
+  { path: 'registro', component: RegistroComponent, data:{ animation: 'registro'}},
   { path: 'verificacion', component: VerificacionCuentaComponent },
   { 
     path: 'home', component: HomeComponent, canActivate: [AuthGuard], children: [

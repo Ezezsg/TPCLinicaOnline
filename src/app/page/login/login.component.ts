@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticateService } from '../../servicios/authenticate.service';
 import { EstadisticasService } from '../../servicios/estadisticas.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-login',
@@ -21,7 +23,7 @@ export class LoginComponent implements OnInit {
   sitekey: string;
   formGroup: FormGroup;
 
-  constructor(private auth: AuthenticateService, private formBuilder: FormBuilder, private stats: EstadisticasService) {
+  constructor(private auth: AuthenticateService, private formBuilder: FormBuilder, private stats: EstadisticasService, private route:Router) {
     this.siteKey = '6LfJQtAiAAAAAGfmVLwo6ZirGDStENJFzAtSimkS'
   }
 
@@ -88,7 +90,14 @@ export class LoginComponent implements OnInit {
   Admin() {
     this.onChange(0);
   }
-	
+
+  bienvenido(){
+    this.route.navigate(['/bienvenido']);
+  }
+
+  register(){
+    this.route.navigate(['/registro']); 
+  }
   
 
 }

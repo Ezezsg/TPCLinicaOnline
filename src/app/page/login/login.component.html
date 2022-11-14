@@ -9,8 +9,15 @@
   <mat-toolbar style="background-color: #306881; color: white;" class="expanded-toolbar">
     <img style="height: 3rem; width: 2rem; border-radius: 100%; margin-right: 2rem;" src="../../../assets/imagenes/login.png" alt="">
         Iniciar Sesión
+        <div class="push">
+          <button mat-raised-button color="" (click)="bienvenido()">Principal</button>
+        </div>
+        <div  style="margin-left: 1vw;">
+          <button mat-raised-button color="primary" (click)="register()">Registro</button>
+      </div>
     </mat-toolbar>
     <div class="contenedor">
+      
       <mat-card class="container ld ld-blur-in">
         
         <div mat-card-avatar class="example-header-image"></div>
@@ -39,7 +46,7 @@
           <!-- <button style="margin-top: 2rem;width: 100%;" class="btn btn-block"   mat-raised-button color="primary"  (click)="Entrar()">Ingresar</button> -->
           <button [disabled]="!recaptcha" style="margin-top: 2rem;width: 100%;" class="btn btn-block"   mat-raised-button color="primary"  (click)="Entrar()">Ingresar</button>
         </form>
-        <br>
-        <h3>¿No tenés usuario?  <a href="/registro">Registrate</a></h3>
+        
       </mat-card>
+      
     </div>

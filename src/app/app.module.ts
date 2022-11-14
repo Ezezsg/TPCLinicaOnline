@@ -167,7 +167,6 @@ import { GraficosTurnosFinalizadosComponent } from './componentes/graficos-turno
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireAnalyticsModule,
-    BrowserAnimationsModule,
     ChartModule,
     NgxCaptchaModule,
     RecaptchaModule,

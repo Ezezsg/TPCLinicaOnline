@@ -36,3 +36,7 @@ form{
     border:10px solid #666;
     margin-right: 10px;
 }
+
+.push {
+    margin-left: auto;
+}

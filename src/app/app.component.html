@@ -1,1 +1,4 @@
-<router-outlet></router-outlet>
+
+<body [@routeAnimations]="prepareRoute(outlet)" class="rout">
+    <router-outlet #outlet="outlet"></router-outlet>
+</body>

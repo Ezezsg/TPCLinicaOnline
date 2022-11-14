@@ -91,3 +91,7 @@ form{
     border:10px solid #306881;
     margin-right: 10px;
 }
+
+.push {
+    margin-left: auto;
+}
