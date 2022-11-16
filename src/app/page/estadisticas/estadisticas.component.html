@@ -1,7 +1,7 @@
 <div class="contenedor">
     <mat-card class="container">
       <h1 style="color:white;">Estadísticas</h1>
-      <div style="overflow-y: scroll; height: 90%;">
+      <div style="overflow-y: scroll; height: 90%;" id="htmlData">
         <app-log-list [listado]="log"></app-log-list>
         <div *ngIf="estadisticas != null">
           <app-graficos-columna [listado]="estadisticas.turnosEspecialidad"
@@ -14,6 +14,9 @@
             [nombre]="'Cantidad de turnos finalizados por medico en un lapso de 7 dias'">
           </app-graficos-turnos-finalizados>
         </div>
+        
       </div>
+      <button class="btn" (click)="toPDF()"
+                style="background-color: red; color: white; margin-top: 1rem; margin-bottom: 1rem;">Descargar PDF</button>
     </mat-card>
 </div>

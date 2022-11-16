@@ -26,6 +26,7 @@ export class MiperfilComponent implements OnInit {
   especialidades: any;
   especialidadSeleccionada: string;
   turnos: Array<Turnos>;
+  fechaAct: Date; 
 
   constructor(private data: DataService, private auth: AuthenticateService, private toast: ToastrService) { }
 
@@ -63,6 +64,21 @@ export class MiperfilComponent implements OnInit {
       console.log(a)
     });
 
+    this.fechaAct = new Date();
+    this.fechaAct = this.parserFecha(this.fechaAct);
+  }
+
+  parserFecha(fecha:Date)
+  {
+    let dia = fecha.getDate();
+    let mes = fecha.getMonth()+1;
+    let anio = fecha.getFullYear() ;
+  //  let feche = dia + "-" + mes + "-" + anio;
+    let feche;
+     feche = anio + "-" + mes + "-" + dia;
+    
+    return feche;
+
   }
 
   toPDF() {
@@ -72,11 +88,13 @@ export class MiperfilComponent implements OnInit {
       let fileWidth = 208;
       let fileHeight = canvas.height * fileWidth / canvas.width;
 
-      const FILEURI = canvas.toDataURL('image/png')
-      let PDF = new jsPDF('l', 'mm', 'a4');
-      let position = -10;
-      PDF.addImage(FILEURI, 'PNG', 5, position, fileWidth, fileHeight)
-
+      const FILEURI = canvas.toDataURL('image/jpg')
+      let PDF = new jsPDF('p', 'mm', 'a4');
+      var width = PDF.internal.pageSize.getWidth();
+      var height = PDF.internal.pageSize.getHeight();
+      
+      PDF.addImage(FILEURI, "JPG",0,0, fileWidth, fileHeight)
+      console.log("Fecha act: ", this.fechaAct);
       PDF.save(`turnos-${this.especialidadSeleccionada}.pdf`);
     });
 
