@@ -2,8 +2,12 @@
 
 Este sistema es una clínica online donde se gestionan turnos para las distintas especialidades.
 [![1.jpg](https://i.postimg.cc/gc71QYTz/1.jpg)](https://postimg.cc/Btxh1G3k)
+El sistema consta de tres tipos de usuarios: Administradores, Pacientes y Profesionales.
+En el momento de registrarse se deberá indicar si es un Paciente(imagen izquierda) o un Profesional (imagen derecha).
+[![2.jpg](https://i.postimg.cc/nLw6xphG/2.jpg)](https://postimg.cc/Tygkq8mK)
+Si se selecciona Paciente, aparte de cargar los datos se deberá subir dos imágenes de perfil, en el caso del Profesional es una imagen e indicar la o las especialidades que ejerce, luego de registrarse sé le enviara un email a su correo que deberá verificar para que el registro sea exitoso.
 
-## Development server
+## Paciente
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
