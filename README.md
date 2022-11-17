@@ -1,6 +1,6 @@
 # TPClinicaOnline
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.5.
+Este sistema es una clínica online donde se gestionan turnos para las distintas especialidades.
 
 ## Development server
 
