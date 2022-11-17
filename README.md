@@ -1,7 +1,7 @@
 # TPClinicaOnline
 
 Este sistema es una clínica online donde se gestionan turnos para las distintas especialidades.
-[https://raw.githubusercontent.com/Ezezsg/TPCLinicaOnline/main/assets/readme/1.jpg]
+[![1.jpg](https://i.postimg.cc/gc71QYTz/1.jpg)](https://postimg.cc/Btxh1G3k)
 
 ## Development server
 
