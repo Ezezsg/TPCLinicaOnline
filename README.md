@@ -1,26 +1,26 @@
 # TPClinicaOnline
 
-Este sistema es una clínica online donde se gestionan turnos para las distintas especialidades.
+Este sistema es una clínica online donde se gestionan turnos para las distintas especialidades.<br/>
 [![1.jpg](https://i.postimg.cc/gc71QYTz/1.jpg)](https://postimg.cc/Btxh1G3k)
-El sistema consta de tres tipos de usuarios: Administradores, Pacientes y Profesionales.
-En el momento de registrarse se deberá indicar si es un Paciente(imagen izquierda) o un Profesional (imagen derecha).
+El sistema consta de tres tipos de usuarios: Administradores, Pacientes y Profesionales.<br/>
+En el momento de registrarse se deberá indicar si es un Paciente(imagen izquierda) o un Profesional (imagen derecha).<br/>
 [![2.jpg](https://i.postimg.cc/nLw6xphG/2.jpg)](https://postimg.cc/Tygkq8mK)
 Si se selecciona Paciente, aparte de cargar los datos se deberá subir dos imágenes de perfil, en el caso del Profesional es una imagen e indicar la o las especialidades que ejerce, luego de registrarse sé le enviara un email a su correo que deberá verificar para que el registro sea exitoso.
 
 ## Paciente
 
-El menú del Paciente contiene Mis Turnos, Solicitar Turno y Mi Perfil.  
+El menú del Paciente contiene Mis Turnos, Solicitar Turno y Mi Perfil.<br/>  
 [![3.jpg](https://i.postimg.cc/dtqn5gqs/3.jpg)](https://postimg.cc/MXFyTPMN)
-Mis Turnos: muestra los turnos que tiene el Paciente tanto activos como finalizados. A estos últimos se los puede calificar.
+Mis Turnos: muestra los turnos que tiene el Paciente tanto activos como finalizados. A estos últimos se los puede calificar.<br/>
 [![4.jpg](https://i.postimg.cc/Cx57gDB9/4.jpg)](https://postimg.cc/75v015NN)
-Solicitar Turno: donde se solicita el turno; especialidad, Profesional, fecha y hora.
+Solicitar Turno: donde se solicita el turno; especialidad, Profesional, fecha y hora.<br/>
 [![5.jpg](https://i.postimg.cc/nLQ1sJ1k/5.jpg)](https://postimg.cc/rdM4b730)
-Mi Perfil: muestra los datos de Paciente.  
+Mi Perfil: muestra los datos de Paciente.<br/> 
 [![6.jpg](https://i.postimg.cc/GtbPSsn7/6.jpg)](https://postimg.cc/cg58vCHw)
 
 ## Profesional
 
-El menú del Profesional contiene Turnos, Tus Horarios, Pacientes y Mi Perfil. 
+El menú del Profesional contiene Turnos, Tus Horarios, Pacientes y Mi Perfil.<br/> 
 [![7.jpg](https://i.postimg.cc/DyjQBZj6/7.jpg)](https://postimg.cc/dLCT0qKZ)
 Turnos: muestra los turnos que tiene el Profesional tanto activos como finalizados en donde deberá cargar los datos del Paciente y calificar la consulta.
 [![8.jpg](https://i.postimg.cc/SxH6bPpz/8.jpg)](https://postimg.cc/CRHBjm5F)
